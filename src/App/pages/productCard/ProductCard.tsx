@@ -1,22 +1,12 @@
 import React, { FC, useState, useEffect } from "react";
 
+import Card from "@components/Card";
+import { PRODUCTS } from "@config/apiUrls";
+import { Product } from "@config/types";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-export type Product = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  rating: {
-    count: number;
-    rate: number;
-  };
-};
-
-export const ProductCard: FC = () => {
+const ProductCard: FC = () => {
   const initialValue: Product = {
     id: 0,
     title: "",
@@ -37,7 +27,7 @@ export const ProductCard: FC = () => {
     const fetch = async () => {
       const result = await axios({
         method: "get",
-        url: `https://fakestoreapi.com/products/${id}`,
+        url: `${PRODUCTS}/${id}`,
       });
       setProduct(result.data);
     };
@@ -51,3 +41,5 @@ export const ProductCard: FC = () => {
     </div>
   );
 };
+
+export default ProductCard;

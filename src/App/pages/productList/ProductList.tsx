@@ -1,30 +1,18 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-import { ProductCard } from "@pages/productCard";
+import { PRODUCTS } from "@config/apiUrls";
+import { Product } from "@config/types";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export type Product = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  rating: {
-    count: number;
-    rate: number;
-  };
-};
-
-export const ProductList: FC = () => {
+const ProductList: FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetch = async () => {
       const result = await axios({
         method: "get",
-        url: "https://fakestoreapi.com/products",
+        url: PRODUCTS,
       });
       setProducts(result.data);
     };
@@ -44,3 +32,5 @@ export const ProductList: FC = () => {
     </div>
   );
 };
+
+export default ProductList;
