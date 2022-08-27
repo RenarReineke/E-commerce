@@ -1,0 +1,19 @@
+.drop-down {
+  background-color: bisque;
+}
+
+.drop-down__item {
+  margin-bottom: 5px;
+  width: 200px;
+  height: 50px;
+  background-color: rgb(223, 234, 66);
+  color: black;
+  border: 5px solid black;
+  text-align: center;
+  line-height: 50px;
+  font-size: 16px;
+}
+
+.drop-down__item:hover {
+  cursor: pointer;
+}

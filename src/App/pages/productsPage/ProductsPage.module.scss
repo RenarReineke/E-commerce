@@ -1,0 +1,27 @@
+@import "@config/variables";
+
+.container {
+  margin: 0 auto;
+  margin-bottom: 80px;
+  width: 1240px;
+  // box-shadow: 0px 0px 8px 7px rgba(34, 60, 80, 0.2);
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 50px;
+  width: 356px;
+  height: 57px;
+
+  text-align: left;
+}
+
+.count {
+  margin-right: 86px;
+  font-size: $paragraf-size;
+  color: $paragraf-color;
+  font-weight: 700;
+}

@@ -1,0 +1,16 @@
+@import "@config/variables";
+
+.page-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30;
+  width: 38px;
+  height: 42px;
+  font-size: $paragraf-size;
+}
+
+.active {
+  background-color: $main-color;
+  color: white;
+}

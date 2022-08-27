@@ -1,0 +1,7 @@
+@import "@config/variables";
+
+.list {
+  display: grid;
+  grid-template-columns: 394px 394px 394px;
+  grid-gap: 30px;
+}
