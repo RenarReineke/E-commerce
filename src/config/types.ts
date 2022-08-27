@@ -10,3 +10,5 @@ export type Product = {
     rate: number;
   };
 };
+
+export type ProductListProps = Product[];

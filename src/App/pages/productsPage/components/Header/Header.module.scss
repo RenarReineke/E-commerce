@@ -1,0 +1,30 @@
+@import "@config/variables";
+
+.header {
+  margin-bottom: 50px;
+}
+
+.title {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  width: 290px;
+
+  font-size: 64px;
+  line-height: 83px;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0 auto;
+  margin-bottom: 80px;
+  width: 600px;
+  height: 64px;
+
+  color: $paragraf-color;
+  font-size: $paragraf-size;
+  line-height: $paragraf-line-height;
+
+  text-align: center;
+}

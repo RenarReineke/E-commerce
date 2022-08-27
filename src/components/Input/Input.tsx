@@ -1,5 +1,7 @@
 import classNames from "classnames";
 
+import "./Input.scss";
+
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"

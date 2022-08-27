@@ -1,0 +1,44 @@
+@import "@config/variables";
+
+.container {
+  margin-bottom: 100px;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: $paragraf-size;
+  line-height: $paragraf-line-height;
+}
+
+.container a {
+  color: black;
+}
+
+.logo-icon {
+  margin-right: 10px;
+}
+
+.profile {
+  width: 84px;
+}
+
+.cart {
+  margin-right: 24px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.list {
+  margin-right: 305px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 60px;
+}

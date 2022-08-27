@@ -2,6 +2,8 @@ import React from "react";
 
 import classNames from "classnames";
 
+import style from "./Loading.module.scss";
+
 export enum LoaderSize {
   s = "s",
   m = "m",
@@ -17,13 +19,9 @@ export type LoaderProps = {
 const Loader: React.FC<LoaderProps> = ({
   loading = true,
   size = LoaderSize.m,
-  className = "loader-color",
+  className = "",
 }) => {
-  let loaderClasses = classNames({
-    "loader_size-s": size === "s" ? true : false,
-    "loader_size-m": size === "m" ? true : false,
-    "loader_size-l": size === "l" ? true : false,
-  });
+  let loaderClasses = classNames("style.loader", `style.loader_size-${size}`);
 
   loaderClasses = className ? loaderClasses + " " + className : "";
 

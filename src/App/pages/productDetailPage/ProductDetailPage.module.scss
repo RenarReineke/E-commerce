@@ -1,0 +1,116 @@
+@import "@config/variables";
+
+.container {
+  margin: 0 auto;
+  margin-bottom: 80px;
+  width: 1240px;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main img {
+  width: 600px;
+  height: 600px;
+  object-fit: contain;
+}
+
+.main-info {
+  margin-left: 50px;
+}
+
+.main-title {
+  margin-top: 32px;
+  margin-bottom: 10px;
+}
+
+.main-subtitle {
+  margin-bottom: 30px;
+
+  font-size: $paragraf-size;
+  line-height: $paragraf-line-height;
+  color: $paragraf-color;
+}
+
+.main-color-title {
+  margin-bottom: 20px;
+
+  font-size: $paragraf-size;
+  line-height: $paragraf-line-height;
+}
+
+.color {
+  display: flex;
+  margin-bottom: 20px;
+  width: 200px;
+  height: 50px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color-black {
+  width: 50px;
+  height: 50px;
+  background-color: #151411;
+}
+
+.color-green {
+  width: 50px;
+  height: 50px;
+  background-color: #314443;
+}
+
+.color-yellow {
+  width: 50px;
+  height: 50px;
+  background-color: #c5a26e;
+}
+
+.color-white {
+  width: 50px;
+  height: 50px;
+  background-color: #d8dbe0;
+}
+
+.main-description {
+  margin-bottom: 30px;
+
+  font-size: $paragraf-size;
+  line-height: $paragraf-line-height;
+  color: $paragraf-color;
+}
+
+.main-description-more {
+  font-size: $paragraf-size;
+  line-height: $paragraf-line-height;
+  color: $main-color;
+}
+
+.main-description-more:hover {
+  cursor: pointer;
+}
+
+.main-price {
+  margin-bottom: 50px;
+  font-size: 44px;
+  line-height: 52px;
+}
+
+.main-button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  grid-row: 20px;
+  width: 590px;
+  height: 58px;
+}
+
+.title {
+  margin: 50 0 30 0;
+}
+
+.wrapper {
+}
