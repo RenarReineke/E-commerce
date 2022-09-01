@@ -6,6 +6,8 @@ import App from "./App";
 
 import "./index.scss";
 
+import "@config/configureMobX";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

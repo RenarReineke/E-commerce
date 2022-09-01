@@ -12,3 +12,7 @@ export type Product = {
 };
 
 export type ProductListProps = Product[];
+
+export type ApiResp<SuccessData = any, ErrorData = any> =
+  | { isError: false; data: SuccessData }
+  | { isError: true; data: ErrorData };
