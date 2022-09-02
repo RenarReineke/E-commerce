@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
+import { observer } from "mobx-react-lite";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 import style from "./Search.module.scss";
 
 const Search = () => {
+  const location = useLocation();
+  const [params, setParams] = useSearchParams();
+
+  /* eslint-disable no-console */
+  console.log("location: ", location);
+  console.log("params: ", params, setParams);
+
+  const handleChange = (value: string) => {
+    setParams({ search: value });
+  };
+
   return (
     <div className={style.container}>
       <div className={style.search}>
@@ -36,8 +49,8 @@ const Search = () => {
         <Input
           className={style["search-input"]}
           placeholder="Search property"
-          value=""
-          onChange={() => ""}
+          value={params.get("search") || ""}
+          onChange={handleChange}
         />
         <Button className={style["button-input"]}>Find Now</Button>
       </div>

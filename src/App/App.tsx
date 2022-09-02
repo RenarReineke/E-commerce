@@ -1,12 +1,9 @@
 import Routes from "@config/routes";
-import { BrowserRouter } from "react-router-dom";
+import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
-  );
+  useQueryParamsStoreInit();
+  return <Routes />;
 };
 
 export default App;

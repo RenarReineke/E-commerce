@@ -4,22 +4,19 @@ import axios from "axios";
 
 import { normalizeProductModel, ProductModel } from "../models";
 
-export const requestProducts = async (
+export const requestProductItem = async (
   url: string,
-  limit: number
-): Promise<ApiResp<ProductModel[]>> => {
+  id: string | undefined
+): Promise<ApiResp<ProductModel>> => {
   try {
     const response = await axios({
       method: "get",
-      url: url,
-      params: {
-        limit: limit,
-      },
+      url: `${url}/${id}`,
     });
 
     return {
       isError: false,
-      data: response.data.map(normalizeProductModel),
+      data: normalizeProductModel(response.data),
     };
   } catch (e) {
     return {

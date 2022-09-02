@@ -7,6 +7,7 @@ import ProductsStore from "@store/ProductsStore";
 import { getPaginator, limit } from "@utils/paginationUtils";
 import { useLocalStore } from "@utils/useLocalStore";
 import axios from "axios";
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
 
@@ -26,9 +27,6 @@ const ProductsPage: FC = () => {
 
   const store = useLocalStore(() => new ProductsStore());
 
-  /* eslint-disable no-console */
-  console.log("RENDER!!! ");
-
   // useEffect(() => {
   //   if (loading) return;
   //   const getProduct = async () => {
@@ -47,11 +45,11 @@ const ProductsPage: FC = () => {
   // }, [loading, currentPage]);
 
   useEffect(() => {
-    store.fetch();
-  }, []);
+    store.getProducts();
+  }, [store]);
 
   /* eslint-disable no-console */
-  console.log("products: ", store.products);
+  console.log("Render products page: ", toJS(store.products), toJS(store.meta));
 
   return (
     <div className={style.container}>
@@ -64,7 +62,7 @@ const ProductsPage: FC = () => {
         <ProductList products={paginatedProducts} />
       </WithLoader> */}
 
-      <ProductList products={store.products}></ProductList>
+      <ProductList products={store.searchedProducts}></ProductList>
 
       {/* <Pagination
         total={totalCount}
