@@ -1,4 +1,3 @@
-import { PRODUCTS } from "@config/apiUrls";
 import { ApiResp } from "@config/types";
 import axios from "axios";
 

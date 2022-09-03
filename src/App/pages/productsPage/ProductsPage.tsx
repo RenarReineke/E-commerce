@@ -1,12 +1,8 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 
 import WithLoader from "@components/WithLoader";
-import { PRODUCTS } from "@config/apiUrls";
-import { Product } from "@config/types";
 import ProductsStore from "@store/ProductsStore";
-import { getPaginator, limit } from "@utils/paginationUtils";
 import { useLocalStore } from "@utils/useLocalStore";
-import axios from "axios";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
@@ -17,32 +13,11 @@ import ProductList from "./components/ProductList";
 import style from "./ProductsPage.module.scss";
 
 const ProductsPage: FC = () => {
-  // const location = useLocation();
-  // const [currentPage, offset] = getPaginator(location.search);
-  // const [products, setProducts] = useState<Product[]>([]);
-  // const [loading, setLoading] = useState(false);
-
-  // const totalCount = products.length;
-  // const paginatedProducts = products.slice(offset, limit);
+  const location = useLocation();
 
   const store = useLocalStore(() => new ProductsStore());
 
-  // useEffect(() => {
-  //   if (loading) return;
-  //   const getProduct = async () => {
-  //     const result = await axios({
-  //       method: "get",
-  //       url: PRODUCTS,
-  //     });
-  //     setLoading(false);
-  //     setProducts(result.data);
-  //   };
-
-  //   getProduct();
-
-  //   /* eslint-disable no-console */
-  //   console.log("EFFECT!!!");
-  // }, [loading, currentPage]);
+  const totalProducts = store.products.length;
 
   useEffect(() => {
     store.getProducts({});
@@ -56,20 +31,20 @@ const ProductsPage: FC = () => {
       <Header />
       <div className={style.title}>
         <h1>Total Product</h1>
-        <span className={style.count}>20</span>
+        <span className={style.count}>{totalProducts}</span>
       </div>
       {/* <WithLoader loading={loading}>
         <ProductList products={paginatedProducts} />
       </WithLoader> */}
 
-      <ProductList products={store.products}></ProductList>
+      <ProductList products={store.paginatedProducts}></ProductList>
 
-      {/* <Pagination
-        total={totalCount}
-        limit={limit}
+      <Pagination
+        total={totalProducts}
+        limit={store.limit}
         url={location.pathname}
-        currentPage={currentPage}
-      /> */}
+        currentPage={store.currentPage}
+      />
     </div>
   );
 };

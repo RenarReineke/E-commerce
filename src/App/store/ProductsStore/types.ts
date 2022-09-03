@@ -1,5 +1,6 @@
 export type GetProductsProps = {
   search?: string;
   category?: string;
-  limit?: number;
+  offset?: number;
+  limitApi?: number;
 };

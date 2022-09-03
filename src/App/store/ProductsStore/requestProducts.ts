@@ -1,4 +1,3 @@
-import { PRODUCTS } from "@config/apiUrls";
 import { ApiResp } from "@config/types";
 import axios from "axios";
 
@@ -6,7 +5,7 @@ import { normalizeProductModel, ProductModel } from "../models";
 
 export const requestProducts = async (
   url: string,
-  limit: number
+  limit?: number
 ): Promise<ApiResp<ProductModel[]>> => {
   try {
     const response = await axios({
