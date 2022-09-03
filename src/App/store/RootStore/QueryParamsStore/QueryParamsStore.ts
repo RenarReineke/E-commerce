@@ -21,9 +21,9 @@ export default class QueryParamsStore {
   }
 
   setSearch(search: string) {
-    if (this._search === search) {
+    if (this._search !== search) {
       this._search = search;
-      this._params = qs.parse(search, { ignoreQueryPrefix: true });
+      this._params = qs.parse(search);
     }
   }
 }

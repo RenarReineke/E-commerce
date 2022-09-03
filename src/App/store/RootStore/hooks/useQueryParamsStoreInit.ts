@@ -1,12 +1,9 @@
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import rootStore from "../instance";
 
 export const useQueryParamsStoreInit = (): void => {
-  const { search } = useLocation();
+  const [search] = useSearchParams();
 
-  /* eslint-disable no-console */
-  console.log("useQueryParamsStoreInit: ", search);
-
-  rootStore.query.setSearch(search);
+  rootStore.query.setSearch(search.toString());
 };

@@ -5,17 +5,20 @@ import {
   linearizeCollection,
   normalizeCollection,
 } from "@store/models/shared/collection";
+import rootStore from "@store/RootStore/instance";
 import { Meta } from "@utils/meta";
 import { ILocalStore } from "@utils/useLocalStore";
 import {
   action,
   computed,
+  IReactionDisposer,
   makeObservable,
   observable,
+  reaction,
   runInAction,
 } from "mobx";
 
-import { ProductModel } from "../models";
+import { ProductApiModel, ProductModel } from "../models";
 import { requestProductItem } from "./requestProductItem";
 import { requestProducts } from "./requestProducts";
 
@@ -61,14 +64,15 @@ export default class ProductsStore implements ILocalStore {
     return this._searchFilter;
   }
 
-  get searchedProducts(): ProductModel[] {
-    /* eslint-disable no-console */
-    console.log("SearchedProduct, Filter = ", this._searchFilter);
-    const data = linearizeCollection(this._products).filter((item) =>
-      item.title.includes(this._searchFilter)
-    );
-    return data;
-  }
+  // get searchedProducts(): ProductModel[] {
+  //   const search = String(rootStore.query.getParam("search"));
+  //   const data = linearizeCollection(this._products).filter((item) =>
+  //     item.title.includes(search)
+  //   );
+  //   /* eslint-disable no-console */
+  //   console.log("SearchedProduct: ", data, search);
+  //   return data;
+  // }
 
   get productItem(): ProductModel | null {
     return this._productItem;
@@ -94,13 +98,20 @@ export default class ProductsStore implements ILocalStore {
     return this._url;
   }
 
-  async getProducts(): Promise<void> {
+  async getProducts(search: string = ""): Promise<void> {
     if (this.meta === Meta.loading || this.meta === Meta.success) return;
+
+    /* eslint-disable no-console */
+    console.log("SEARCH_GET_PRODUCTS: ", search);
 
     this._meta = Meta.loading;
     this._products = getInitialCollectionModel();
 
     const { isError, data } = await requestProducts(this.url, this.limit);
+
+    const searchedData = data.filter((item: ProductApiModel) =>
+      item.title.includes(search)
+    );
 
     runInAction(() => {
       if (isError) {
@@ -110,7 +121,7 @@ export default class ProductsStore implements ILocalStore {
       }
       this._meta = Meta.success;
       this._products = normalizeCollection(
-        data,
+        searchedData,
         (productItem) => productItem.id
       );
     });
@@ -174,4 +185,19 @@ export default class ProductsStore implements ILocalStore {
   // }
 
   destroy(): void {}
+
+  private readonly _qpReaction: IReactionDisposer = reaction(
+    () => {
+      return rootStore.query.getParam("search");
+    },
+    (search) => {
+      /* eslint-disable no-console */
+      console.log("SEARCH_REACTION: ", search);
+      console.log("META: ", this.meta);
+      if (search) {
+        this._meta = Meta.initial;
+        this.getProducts(String(search));
+      }
+    }
+  );
 }

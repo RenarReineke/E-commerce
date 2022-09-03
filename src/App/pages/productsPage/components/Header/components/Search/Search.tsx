@@ -2,26 +2,23 @@ import React, { useEffect, useState } from "react";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
-import { observer } from "mobx-react-lite";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import style from "./Search.module.scss";
 
 const Search = () => {
-  const location = useLocation();
   const [params, setParams] = useSearchParams();
+  const [search, setSearch] = useState("");
 
-  /* eslint-disable no-console */
-  console.log("location: ", location);
-  console.log("params: ", params, setParams);
-
-  const handleChange = (value: string) => {
-    setParams({ search: value });
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setParams({ search });
+    setSearch("");
   };
 
   return (
     <div className={style.container}>
-      <div className={style.search}>
+      <form className={style.search} onSubmit={handleSubmit}>
         <span className={style["search-icon"]}>
           <svg
             width="32"
@@ -49,11 +46,13 @@ const Search = () => {
         <Input
           className={style["search-input"]}
           placeholder="Search property"
-          value={params.get("search") || ""}
-          onChange={handleChange}
+          value={search}
+          onChange={setSearch}
         />
-        <Button className={style["button-input"]}>Find Now</Button>
-      </div>
+        <Button type="submit" className={style["button-input"]}>
+          Find Now
+        </Button>
+      </form>
       <div className={style.filter}>
         <span className={style["filter-icon"]}>
           <svg

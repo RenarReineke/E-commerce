@@ -44,9 +44,9 @@ const ProductsPage: FC = () => {
   //   console.log("EFFECT!!!");
   // }, [loading, currentPage]);
 
-  useEffect(() => {
-    store.getProducts();
-  }, [store]);
+  // useEffect(() => {
+  //   store.getProducts();
+  // }, [store]);
 
   /* eslint-disable no-console */
   console.log("Render products page: ", toJS(store.products), toJS(store.meta));
@@ -62,7 +62,7 @@ const ProductsPage: FC = () => {
         <ProductList products={paginatedProducts} />
       </WithLoader> */}
 
-      <ProductList products={store.searchedProducts}></ProductList>
+      <ProductList products={store.products}></ProductList>
 
       {/* <Pagination
         total={totalCount}
