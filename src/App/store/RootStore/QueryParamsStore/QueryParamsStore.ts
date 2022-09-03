@@ -1,17 +1,24 @@
 import { action, makeObservable, observable } from "mobx";
 import * as qs from "qs";
 
-type PrivateFields = "_params";
+type PrivateFields = "_path" | "_params";
 
 export default class QueryParamsStore {
+  private _path: string = "";
   private _params: qs.ParsedQs = {};
   private _search: string = "";
 
   constructor() {
     makeObservable<QueryParamsStore, PrivateFields>(this, {
+      _path: observable.ref,
       _params: observable.ref,
       setSearch: action,
+      setPath: action,
     });
+  }
+
+  get path() {
+    return this._path;
   }
 
   getParam(
@@ -25,5 +32,9 @@ export default class QueryParamsStore {
       this._search = search;
       this._params = qs.parse(search);
     }
+  }
+
+  setPath(path: string) {
+    this._path = path;
   }
 }

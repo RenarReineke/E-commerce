@@ -98,7 +98,10 @@ export default class ProductsStore implements ILocalStore {
     return this._url;
   }
 
-  async getProducts(search: string = ""): Promise<void> {
+  async getProducts(
+    search: string = String(rootStore.query.getParam("search") || ""),
+    category: string = String(rootStore.query.getParam("category") || "")
+  ): Promise<void> {
     if (this.meta === Meta.loading || this.meta === Meta.success) return;
 
     /* eslint-disable no-console */
@@ -107,7 +110,16 @@ export default class ProductsStore implements ILocalStore {
     this._meta = Meta.loading;
     this._products = getInitialCollectionModel();
 
-    const { isError, data } = await requestProducts(this.url, this.limit);
+    const url = this.url;
+    // category && category !== ""
+    //   ? `${this.url}/category/${category}`
+    //   : this.url;
+
+    /* eslint-disable no-console */
+    console.log("CATEGORY_GET_PRODUCTS: ", category);
+    console.log("URL_GET_PRODUCTS: ", url);
+
+    const { isError, data } = await requestProducts(url, this.limit);
 
     const searchedData = data.filter((item: ProductApiModel) =>
       item.title.includes(search)
@@ -188,16 +200,25 @@ export default class ProductsStore implements ILocalStore {
 
   private readonly _qpReaction: IReactionDisposer = reaction(
     () => {
-      return rootStore.query.getParam("search");
+      return {
+        path: rootStore.query.path,
+        search: rootStore.query.getParam("search"),
+        category: rootStore.query.getParam("category"),
+      };
     },
-    (search) => {
+    ({ path, search, category }) => {
       /* eslint-disable no-console */
+      console.log("PATH: ", path);
       console.log("SEARCH_REACTION: ", search);
+      console.log("CATEGORY_REACTION: ", category);
       console.log("META: ", this.meta);
-      if (search) {
-        this._meta = Meta.initial;
-        this.getProducts(String(search));
-      }
+      // if (!search && !category) {
+      //   this._meta = Meta.initial;
+      //   this.getProducts();
+      // }
+
+      this._meta = Meta.initial;
+      this.getProducts(String(search || ""), String(category || ""));
     }
   );
 }

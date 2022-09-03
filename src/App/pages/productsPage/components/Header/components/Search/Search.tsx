@@ -16,6 +16,10 @@ const Search = () => {
     setSearch("");
   };
 
+  const handleFilterClick = () => {
+    setParams({ category: "men's clothing" });
+  };
+
   return (
     <div className={style.container}>
       <form className={style.search} onSubmit={handleSubmit}>
@@ -53,7 +57,7 @@ const Search = () => {
           Find Now
         </Button>
       </form>
-      <div className={style.filter}>
+      <button onClick={handleFilterClick} className={style.filter}>
         <span className={style["filter-icon"]}>
           <svg
             width="30"
@@ -81,7 +85,7 @@ const Search = () => {
           </svg>
         </span>
         Filter
-      </div>
+      </button>
     </div>
   );
 };
