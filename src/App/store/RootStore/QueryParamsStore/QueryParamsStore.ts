@@ -21,6 +21,10 @@ export default class QueryParamsStore {
     return this._path;
   }
 
+  get params() {
+    return this._params;
+  }
+
   getParam(
     key: string
   ): undefined | string | string[] | qs.ParsedQs | qs.ParsedQs[] {

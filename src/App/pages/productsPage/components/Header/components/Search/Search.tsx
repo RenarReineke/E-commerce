@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
+import rootStore from "@store/RootStore/instance";
+import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
 
 import style from "./Search.module.scss";
@@ -10,14 +12,16 @@ const Search = () => {
   const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState("");
 
+  const storParams = rootStore.query.params;
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    setParams({ search });
+    setParams({ ...storParams, search });
     setSearch("");
   };
 
   const handleFilterClick = () => {
-    setParams({ category: "men's clothing" });
+    setParams({ ...storParams, category: "men's clothing" });
   };
 
   return (
@@ -90,4 +94,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default observer(Search);

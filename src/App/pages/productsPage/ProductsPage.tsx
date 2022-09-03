@@ -45,7 +45,7 @@ const ProductsPage: FC = () => {
   // }, [loading, currentPage]);
 
   useEffect(() => {
-    store.getProducts();
+    store.getProducts({});
   }, [store]);
 
   /* eslint-disable no-console */

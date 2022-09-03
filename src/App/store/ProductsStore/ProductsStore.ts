@@ -21,6 +21,7 @@ import {
 import { ProductApiModel, ProductModel } from "../models";
 import { requestProductItem } from "./requestProductItem";
 import { requestProducts } from "./requestProducts";
+import { GetProductsProps } from "./types";
 
 type PrivateFields =
   | "_productItem"
@@ -98,10 +99,15 @@ export default class ProductsStore implements ILocalStore {
     return this._url;
   }
 
-  async getProducts(
-    search: string = String(rootStore.query.getParam("search") || ""),
-    category: string = String(rootStore.query.getParam("category") || "")
-  ): Promise<void> {
+  // search: string = String(rootStore.query.getParam("search") || ""),
+  //   category: string = String(rootStore.query.getParam("category") || ""),
+  //   limit: number = 0,
+
+  async getProducts({
+    search = String(rootStore.query.getParam("search") || ""),
+    category = String(rootStore.query.getParam("category") || ""),
+    limit = 0,
+  }: GetProductsProps): Promise<void> {
     if (this.meta === Meta.loading || this.meta === Meta.success) return;
 
     /* eslint-disable no-console */
@@ -110,16 +116,14 @@ export default class ProductsStore implements ILocalStore {
     this._meta = Meta.loading;
     this._products = getInitialCollectionModel();
 
-    const url = this.url;
-    // category && category !== ""
-    //   ? `${this.url}/category/${category}`
-    //   : this.url;
+    const url = category !== "" ? `${this.url}/category/${category}` : this.url;
 
     /* eslint-disable no-console */
     console.log("CATEGORY_GET_PRODUCTS: ", category);
     console.log("URL_GET_PRODUCTS: ", url);
+    console.log("EQUAL_CATEGORY: ", category !== "");
 
-    const { isError, data } = await requestProducts(url, this.limit);
+    const { isError, data } = await requestProducts(url, limit);
 
     const searchedData = data.filter((item: ProductApiModel) =>
       item.title.includes(search)
@@ -187,38 +191,40 @@ export default class ProductsStore implements ILocalStore {
     this._searchFilter = value;
   }
 
-  // getSearchedProduct(searchValue: string) {
-  //   /* eslint-disable no-console */
-  //   console.log("getSearchedProduct");
-  //   const data = linearizeCollection(this._products).filter((item) =>
-  //     item.title.includes(searchValue)
-  //   );
-  //   this._products = normalizeCollection(data, (productItem) => productItem.id);
-  // }
-
   destroy(): void {}
 
   private readonly _qpReaction: IReactionDisposer = reaction(
     () => {
       return {
-        path: rootStore.query.path,
         search: rootStore.query.getParam("search"),
         category: rootStore.query.getParam("category"),
       };
     },
-    ({ path, search, category }) => {
+    ({ search, category }) => {
       /* eslint-disable no-console */
-      console.log("PATH: ", path);
       console.log("SEARCH_REACTION: ", search);
       console.log("CATEGORY_REACTION: ", category);
       console.log("META: ", this.meta);
-      // if (!search && !category) {
-      //   this._meta = Meta.initial;
-      //   this.getProducts();
-      // }
 
       this._meta = Meta.initial;
-      this.getProducts(String(search || ""), String(category || ""));
+      this.getProducts({
+        search: String(search || ""),
+        category: String(category || ""),
+      });
+    }
+  );
+
+  private readonly _relatedItemsReaction: IReactionDisposer = reaction(
+    () => {
+      return this._productItem;
+    },
+    (productItem) => {
+      this._meta = Meta.initial;
+      const params = {
+        category: productItem?.category || "",
+        limit: 3,
+      };
+      this.getProducts(params);
     }
   );
 }

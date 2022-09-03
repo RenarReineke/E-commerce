@@ -16,27 +16,7 @@ import { useParams } from "react-router-dom";
 
 import style from "./ProductDetailPage.module.scss";
 
-// const initialValue: Product = {
-//   id: 0,
-//   title: "",
-//   description: "",
-//   price: 0,
-//   image: "",
-//   category: "",
-//   rating: {
-//     count: 0,
-//     rate: 0,
-//   },
-// };
-
 const ProductDetailPage: FC = () => {
-  // const [loading, setLoading] = useState(false);
-  // const [{ image, title, description, price, category }, setProduct] =
-  //   useState<Product>(initialValue);
-  // const [relatedProducts, setRelatedProducts] = useState<Product[]>([
-  //   initialValue,
-  // ]);
-
   const store = useLocalStore(() => new ProductsStore());
 
   const { id } = useParams();
@@ -46,34 +26,7 @@ const ProductDetailPage: FC = () => {
   }, [store, id]);
 
   /* eslint-disable no-console */
-  console.log(
-    "Render productItem page: ",
-    toJS(store.productItem),
-    toJS(store.meta)
-  );
-
-  // useEffect(() => {
-  //   if (loading) return;
-  //   const getProduct = async () => {
-  //     const result = await axios({
-  //       method: "get",
-  //       url: `${PRODUCTS}/${id}`,
-  //     });
-  //     setLoading(false);
-  //     setProduct(result.data);
-  //   };
-
-  //   const getRelatedProducts = async () => {
-  //     const result = await axios({
-  //       method: "get",
-  //       url: `${PRODUCTS}/category/${category}/?limit=3`,
-  //     });
-  //     setLoading(false);
-  //     setRelatedProducts(result.data);
-  //   };
-
-  //   getProduct().then(() => getRelatedProducts());
-  // }, [id, category, loading]);
+  console.log("RELATED ITEMS: ", toJS(store.products));
 
   return (
     <div className={style.container}>
@@ -104,16 +57,12 @@ const ProductDetailPage: FC = () => {
           </div>
         </div>
       </section>
-      {/* <section className={style["related-items"]}>
+      <section className={style["related-items"]}>
         <h2 className={style.title}>Related items</h2>
         <div className={style.wrapper}>
-          {store.getRelatedProducts.length > 1 && (
-            <ProductList
-              products={store.getRelatedProducts(store.productItem?.category)}
-            />
-          )}
+          <ProductList products={store.products} />
         </div>
-      </section> */}
+      </section>
       {/* <WithLoader loading={loading}>
         <section className={style.main}>
           <img src={image} alt={title} />
