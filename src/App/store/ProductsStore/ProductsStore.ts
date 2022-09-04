@@ -113,8 +113,6 @@ export default class ProductsStore implements ILocalStore {
       item.title.toLowerCase().includes(search.toLowerCase())
     );
 
-    // const paginatedData = searchedData.slice(this.offset, this.limitNumber);
-
     runInAction(() => {
       if (isError) {
         this._meta = Meta.error;
@@ -181,13 +179,4 @@ export default class ProductsStore implements ILocalStore {
       this.getProducts(params);
     }
   );
-
-  // private readonly _currentPageReaction: IReactionDisposer = reaction(
-  //   () => {
-  //     return rootStore.query.getParam("page");
-  //   },
-  //   (page) => {
-  //     this._currentPage = Number(page || 1);
-  //   }
-  // );
 }
