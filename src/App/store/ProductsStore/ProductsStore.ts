@@ -37,7 +37,7 @@ export default class ProductsStore implements ILocalStore {
     getInitialCollectionModel();
   private _meta: Meta = Meta.initial;
   private _limit: number = 5;
-  private _currentPage: number = 1;
+  private _currentPage: number = Number(rootStore.query.getParam("page") || 1);
   private _url: string = PRODUCTS;
 
   constructor() {
@@ -113,6 +113,8 @@ export default class ProductsStore implements ILocalStore {
       item.title.toLowerCase().includes(search.toLowerCase())
     );
 
+    // const paginatedData = searchedData.slice(this.offset, this.limitNumber);
+
     runInAction(() => {
       if (isError) {
         this._meta = Meta.error;
@@ -153,10 +155,12 @@ export default class ProductsStore implements ILocalStore {
       return {
         search: rootStore.query.getParam("search"),
         category: rootStore.query.getParam("category"),
+        page: rootStore.query.getParam("page"),
       };
     },
-    ({ search, category }) => {
+    ({ search, category, page }) => {
       this._meta = Meta.initial;
+      this._currentPage = Number(page || 1);
       this.getProducts({
         search: String(search || ""),
         category: String(category || ""),
@@ -178,12 +182,12 @@ export default class ProductsStore implements ILocalStore {
     }
   );
 
-  private readonly _currentPageReaction: IReactionDisposer = reaction(
-    () => {
-      return rootStore.query.getParam("page");
-    },
-    (page) => {
-      this._currentPage = Number(page || 1);
-    }
-  );
+  // private readonly _currentPageReaction: IReactionDisposer = reaction(
+  //   () => {
+  //     return rootStore.query.getParam("page");
+  //   },
+  //   (page) => {
+  //     this._currentPage = Number(page || 1);
+  //   }
+  // );
 }
