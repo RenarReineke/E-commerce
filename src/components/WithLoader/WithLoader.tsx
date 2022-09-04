@@ -1,3 +1,5 @@
+import React from "react";
+
 import Loader from "@components/Loader";
 
 export type WithLoaderProps = React.PropsWithChildren<{
@@ -7,8 +9,8 @@ export type WithLoaderProps = React.PropsWithChildren<{
 const WithLoader = ({ loading, children }: WithLoaderProps) => {
   return (
     <>
-      {children}
       {loading && <Loader />}
+      {children}
     </>
   );
 };

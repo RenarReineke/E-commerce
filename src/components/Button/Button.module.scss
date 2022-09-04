@@ -5,7 +5,7 @@
   height: 54px;
 
   font-size: $paragraf-size;
-  color: #ffffff;
+  color: $main-background;
 }
 
 .button-large {
@@ -27,7 +27,7 @@ button:hover {
 }
 
 .button_color-secondary {
-  border: 2px solid #f3f3f3;
-  background-color: white;
-  color: black;
+  border: 2px solid $paragraf-color;
+  background-color: $main-background;
+  color: $title-color;
 }

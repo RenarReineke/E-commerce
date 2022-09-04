@@ -1,8 +1,14 @@
 @import "@config/variables";
 
 .loader {
-  border: 2px solid $main-color;
+  position: absolute;
+  top: 70%;
+  left: calc(50% - 30px);
+  border: 10px solid $main-color;
   border-radius: 50%;
+}
+
+loader::after {
 }
 
 .loader_size-s {

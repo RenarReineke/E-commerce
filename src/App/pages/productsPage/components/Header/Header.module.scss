@@ -11,7 +11,7 @@
 
   font-size: 64px;
   line-height: 83px;
-  font-weight: 700;
+  color: $title-color;
 
   text-align: center;
 }
@@ -22,8 +22,6 @@
   width: 600px;
   height: 64px;
 
-  color: $paragraf-color;
-  font-size: $paragraf-size;
   line-height: $paragraf-line-height;
 
   text-align: center;

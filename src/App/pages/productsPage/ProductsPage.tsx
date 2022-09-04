@@ -2,8 +2,8 @@ import { FC, useEffect } from "react";
 
 import WithLoader from "@components/WithLoader";
 import ProductsStore from "@store/ProductsStore";
+import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
 
@@ -23,9 +23,6 @@ const ProductsPage: FC = () => {
     store.getProducts({});
   }, [store]);
 
-  /* eslint-disable no-console */
-  console.log("Render products page: ", toJS(store.products), toJS(store.meta));
-
   return (
     <div className={style.container}>
       <Header />
@@ -33,11 +30,10 @@ const ProductsPage: FC = () => {
         <h1>Total Product</h1>
         <span className={style.count}>{totalProducts}</span>
       </div>
-      {/* <WithLoader loading={loading}>
-        <ProductList products={paginatedProducts} />
-      </WithLoader> */}
 
-      <ProductList products={store.paginatedProducts}></ProductList>
+      <WithLoader loading={store.meta === Meta.loading}>
+        <ProductList products={store.paginatedProducts}></ProductList>
+      </WithLoader>
 
       <Pagination
         total={totalProducts}

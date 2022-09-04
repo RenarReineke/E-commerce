@@ -24,21 +24,16 @@
 .main-title {
   margin-top: 32px;
   margin-bottom: 10px;
+  color: $title-color;
 }
 
 .main-subtitle {
   margin-bottom: 30px;
-
-  font-size: $paragraf-size;
-  line-height: $paragraf-line-height;
-  color: $paragraf-color;
 }
 
 .main-color-title {
   margin-bottom: 20px;
-
-  font-size: $paragraf-size;
-  line-height: $paragraf-line-height;
+  color: $title-color;
 }
 
 .color {
@@ -78,15 +73,9 @@
 
 .main-description {
   margin-bottom: 30px;
-
-  font-size: $paragraf-size;
-  line-height: $paragraf-line-height;
-  color: $paragraf-color;
 }
 
 .main-description-more {
-  font-size: $paragraf-size;
-  line-height: $paragraf-line-height;
   color: $main-color;
 }
 
@@ -98,6 +87,7 @@
   margin-bottom: 50px;
   font-size: 44px;
   line-height: 52px;
+  color: $title-color;
 }
 
 .main-button-wrapper {
@@ -110,6 +100,7 @@
 
 .title {
   margin: 50 0 30 0;
+  color: $title-color;
 }
 
 .wrapper {

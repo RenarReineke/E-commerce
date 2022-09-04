@@ -110,7 +110,7 @@ export default class ProductsStore implements ILocalStore {
     const { isError, data } = await requestProducts(url, limitApi);
 
     const searchedData = data.filter((item: ProductApiModel) =>
-      item.title.includes(search)
+      item.title.toLowerCase().includes(search.toLowerCase())
     );
 
     runInAction(() => {
