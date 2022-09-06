@@ -8,6 +8,7 @@ import {
 import rootStore from "@store/RootStore/instance";
 import { Meta } from "@utils/meta";
 import { ILocalStore } from "@utils/useLocalStore";
+import axios from "axios";
 import {
   action,
   computed,
@@ -18,9 +19,7 @@ import {
   runInAction,
 } from "mobx";
 
-import { ProductApiModel, ProductModel } from "../models";
-import { requestProductItem } from "./requestProductItem";
-import { requestProducts } from "./requestProducts";
+import { ProductModel } from "../models";
 import { GetProductsProps } from "./types";
 
 type PrivateFields =
@@ -107,24 +106,33 @@ export default class ProductsStore implements ILocalStore {
     this._products = getInitialCollectionModel();
 
     const url = category !== "" ? `${this.url}/category/${category}` : this.url;
-    const { isError, data } = await requestProducts(url, limitApi);
 
-    const searchedData = data.filter((item: ProductApiModel) =>
-      item.title.toLowerCase().includes(search.toLowerCase())
-    );
+    try {
+      const response = await axios({
+        method: "get",
+        url: url,
+        params: {
+          limit: limitApi,
+        },
+      });
 
-    runInAction(() => {
-      if (isError) {
+      const searchedData = response.data.filter((item: ProductModel) =>
+        item.title.toLowerCase().includes(search.toLowerCase())
+      );
+
+      runInAction(() => {
+        this._meta = Meta.success;
+        this._products = normalizeCollection(
+          searchedData,
+          (productItem) => productItem.id
+        );
+      });
+    } catch (e) {
+      runInAction(() => {
         this._meta = Meta.error;
         this._products = getInitialCollectionModel();
-        return;
-      }
-      this._meta = Meta.success;
-      this._products = normalizeCollection(
-        searchedData,
-        (productItem) => productItem.id
-      );
-    });
+      });
+    }
   }
 
   async getProductItem(id: string | undefined): Promise<void> {
@@ -133,17 +141,22 @@ export default class ProductsStore implements ILocalStore {
     this._meta = Meta.loading;
     this._productItem = null;
 
-    const { isError, data } = await requestProductItem(this.url, id);
+    try {
+      const response = await axios({
+        method: "get",
+        url: `${this.url}/${id}`,
+      });
 
-    runInAction(() => {
-      if (isError) {
+      runInAction(() => {
+        this._meta = Meta.success;
+        this._productItem = response.data;
+      });
+    } catch (e) {
+      runInAction(() => {
         this._meta = Meta.error;
         this._productItem = null;
-        return;
-      }
-      this._meta = Meta.success;
-      this._productItem = data;
-    });
+      });
+    }
   }
 
   destroy(): void {}
