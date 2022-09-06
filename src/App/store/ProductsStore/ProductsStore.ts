@@ -7,6 +7,7 @@ import {
 } from "@store/models/shared/collection";
 import rootStore from "@store/RootStore/instance";
 import { Meta } from "@utils/meta";
+import { range } from "@utils/paginationUtils";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
@@ -41,6 +42,9 @@ export default class ProductsStore implements ILocalStore {
       _url: observable,
       _currentPage: observable,
       products: computed,
+      totalProducts: computed,
+      pagesCount: computed,
+      pages: computed,
       meta: computed,
       url: computed,
       currentPage: computed,
@@ -53,6 +57,18 @@ export default class ProductsStore implements ILocalStore {
 
   get products(): ProductModel[] {
     return linearizeCollection(this._products);
+  }
+
+  get totalProducts(): number {
+    return this.products.length;
+  }
+
+  get pagesCount(): number {
+    return Math.ceil(this.totalProducts / this.limit);
+  }
+
+  get pages(): number[] {
+    return range(1, this.pagesCount);
   }
 
   get paginatedProducts(): ProductModel[] {

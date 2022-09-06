@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 
 import WithLoader from "@components/WithLoader";
 import ProductsStore from "@store/ProductsStore";
@@ -17,8 +17,6 @@ const ProductsPage: FC = () => {
 
   const store = useLocalStore(() => new ProductsStore());
 
-  const totalProducts = store.products.length;
-
   useEffect(() => {
     store.getProducts({});
   }, []);
@@ -28,19 +26,14 @@ const ProductsPage: FC = () => {
       <Header />
       <div className={style.title}>
         <h1>Total Product</h1>
-        <span className={style.count}>{totalProducts}</span>
+        <span className={style.count}>{store.totalProducts}</span>
       </div>
 
       <WithLoader loading={store.meta === Meta.loading}>
         <ProductList products={store.paginatedProducts}></ProductList>
       </WithLoader>
 
-      <Pagination
-        total={totalProducts}
-        limit={store.limit}
-        url={location.pathname}
-        currentPage={store.currentPage}
-      />
+      <Pagination store={store} url={location.pathname} />
     </div>
   );
 };

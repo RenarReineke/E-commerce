@@ -22,11 +22,16 @@ const ProductDetailPage: FC = () => {
 
   useEffect(() => {
     storeItem.getProductItem(id);
-    storeList.getProducts({
-      category: storeItem.productItem?.category,
-      limitApi: 3,
-    });
-  }, [id]);
+  });
+
+  useEffect(() => {
+    if (storeItem.productItem?.category) {
+      storeList.getProducts({
+        category: storeItem.productItem?.category,
+        limitApi: 3,
+      });
+    }
+  });
 
   return (
     <div className={style.container}>
