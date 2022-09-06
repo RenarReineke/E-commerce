@@ -21,7 +21,7 @@ const ProductsPage: FC = () => {
 
   useEffect(() => {
     store.getProducts({});
-  }, [store]);
+  }, []);
 
   return (
     <div className={style.container}>

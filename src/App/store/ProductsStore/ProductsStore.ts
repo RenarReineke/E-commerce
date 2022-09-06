@@ -22,16 +22,9 @@ import {
 import { ProductModel } from "../models";
 import { GetProductsProps } from "./types";
 
-type PrivateFields =
-  | "_productItem"
-  | "_products"
-  | "_meta"
-  | "_limit"
-  | "_url"
-  | "_currentPage";
+type PrivateFields = "_products" | "_meta" | "_limit" | "_url" | "_currentPage";
 
 export default class ProductsStore implements ILocalStore {
-  private _productItem: ProductModel | null = null;
   private _products: CollectionModel<number, ProductModel> =
     getInitialCollectionModel();
   private _meta: Meta = Meta.initial;
@@ -41,7 +34,6 @@ export default class ProductsStore implements ILocalStore {
 
   constructor() {
     makeObservable<ProductsStore, PrivateFields>(this, {
-      _productItem: observable,
       _products: observable.ref,
       _meta: observable,
       _limit: observable,
@@ -55,12 +47,7 @@ export default class ProductsStore implements ILocalStore {
       offset: computed,
       paginatedProducts: computed,
       getProducts: action,
-      getProductItem: action,
     });
-  }
-
-  get productItem(): ProductModel | null {
-    return this._productItem;
   }
 
   get products(): ProductModel[] {
@@ -135,40 +122,14 @@ export default class ProductsStore implements ILocalStore {
     }
   }
 
-  async getProductItem(id: string | undefined): Promise<void> {
-    if (this.meta === Meta.loading || this.meta === Meta.success) return;
-
-    this._meta = Meta.loading;
-    this._productItem = null;
-
-    try {
-      const response = await axios({
-        method: "get",
-        url: `${this.url}/${id}`,
-      });
-
-      runInAction(() => {
-        this._meta = Meta.success;
-        this._productItem = response.data;
-      });
-    } catch (e) {
-      runInAction(() => {
-        this._meta = Meta.error;
-        this._productItem = null;
-      });
-    }
-  }
-
   destroy(): void {}
 
   private readonly _qpReaction: IReactionDisposer = reaction(
-    () => {
-      return {
-        search: rootStore.query.getParam("search"),
-        category: rootStore.query.getParam("category"),
-        page: rootStore.query.getParam("page"),
-      };
-    },
+    () => ({
+      search: rootStore.query.getParam("search"),
+      category: rootStore.query.getParam("category"),
+      page: rootStore.query.getParam("page"),
+    }),
     ({ search, category, page }) => {
       this._meta = Meta.initial;
       this._currentPage = Number(page || 1);
@@ -176,20 +137,6 @@ export default class ProductsStore implements ILocalStore {
         search: String(search || ""),
         category: String(category || ""),
       });
-    }
-  );
-
-  private readonly _relatedItemsReaction: IReactionDisposer = reaction(
-    () => {
-      return this._productItem;
-    },
-    (productItem) => {
-      this._meta = Meta.initial;
-      const params = {
-        category: productItem?.category || "",
-        limitApi: 3,
-      };
-      this.getProducts(params);
     }
   );
 }
