@@ -1,0 +1,10 @@
+@import "@config/variables";
+
+.input {
+  width: 300px;
+  height: 84px;
+}
+
+.input:focus {
+  border: 1px solid $main-color;
+}

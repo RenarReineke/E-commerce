@@ -1,0 +1,66 @@
+@import "@config/variables";
+
+.card {
+  width: 394px;
+  height: 500px;
+}
+
+.img {
+  margin-bottom: 26px;
+  width: 394px;
+  height: 360px;
+  object-fit: contain;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.category {
+  margin-bottom: 14px;
+  color: $paragraf-color;
+  font-family: "Eudoxus Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 130%;
+}
+
+.title {
+  margin-bottom: 6px;
+  height: 35px;
+
+  color: #151411;
+  font-family: "Eudoxus Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 130%;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  margin-bottom: 18px;
+  color: #afadb5;
+  font-family: "Eudoxus Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 180%;
+
+  height: 32px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price {
+  color: #151411;
+  font-family: "Eudoxus Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 130%;
+}

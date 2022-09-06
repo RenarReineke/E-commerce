@@ -1,0 +1,27 @@
+@import-normalize;
+@import-sanitize;
+@import "@config/variables";
+
+body {
+  color: $paragraf-color;
+  font-family: "Eudoxus Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: $paragraf-size;
+  line-height: 130%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+}
