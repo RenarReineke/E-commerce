@@ -20,6 +20,7 @@ import {
 } from "mobx";
 
 import { ProductModel } from "../models";
+import { SearchParam } from "../RootStore/QueryParamsStore";
 import { GetProductsProps } from "./types";
 
 type PrivateFields = "_products" | "_meta" | "_limit" | "_url" | "_currentPage";
@@ -122,6 +123,19 @@ export default class ProductsStore implements ILocalStore {
     }
   }
 
+  onChangeSearchParams(
+    search: SearchParam,
+    category: SearchParam,
+    page: SearchParam
+  ) {
+    this._meta = Meta.initial;
+    this._currentPage = Number(page || 1);
+    this.getProducts({
+      search: String(search || ""),
+      category: String(category || ""),
+    });
+  }
+
   destroy(): void {}
 
   private readonly _qpReaction: IReactionDisposer = reaction(
@@ -131,12 +145,7 @@ export default class ProductsStore implements ILocalStore {
       page: rootStore.query.getParam("page"),
     }),
     ({ search, category, page }) => {
-      this._meta = Meta.initial;
-      this._currentPage = Number(page || 1);
-      this.getProducts({
-        search: String(search || ""),
-        category: String(category || ""),
-      });
+      this.onChangeSearchParams(search, category, page);
     }
   );
 }
