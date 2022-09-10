@@ -14,16 +14,16 @@ const Search = () => {
   const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState("");
 
-  const storParams = rootStore.query.params;
+  const storeParams = rootStore.query.params;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    setParams({ ...storParams, search });
+    setParams({ ...storeParams, search });
     setSearch("");
   };
 
   const handleFilterClick = () => {
-    setParams({ ...storParams, category: "men's clothing" });
+    setParams({ ...storeParams, category: "men's clothing" });
   };
 
   return (
