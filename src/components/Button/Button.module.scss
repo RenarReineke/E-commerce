@@ -1,0 +1,33 @@
+@import "@config/variables";
+
+.button {
+  width: 138px;
+  height: 54px;
+
+  font-size: $paragraf-size;
+  color: $main-background;
+}
+
+.button-large {
+  width: 285px;
+  height: 58px;
+}
+
+button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.button_disabled {
+  background-color: $disabled-color;
+}
+
+.button_color-primary {
+  background-color: $main-color;
+}
+
+.button_color-secondary {
+  border: 2px solid $paragraf-color;
+  background-color: $main-background;
+  color: $title-color;
+}
